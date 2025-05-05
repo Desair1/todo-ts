@@ -8,6 +8,27 @@ const TodoList: React.FC = () => {
   useEffect(() => {}, []);
 
   useEffect(() => {}, [tasks]);
+
+  const addTask = (text: string) => {};
+
+  const toggleComplete = (id: number) => {};
+
+  const deleteTask = (id: number) => {};
+
+  return (
+    <>
+      <ul>
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            Task={task}
+            toggleComplete={toggleComplete}
+            deleteTask={deleteTask}
+          ></TaskItem>
+        ))}
+      </ul>
+    </>
+  );
 };
 
 export default TodoList;
