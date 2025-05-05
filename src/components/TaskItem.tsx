@@ -10,8 +10,8 @@ const TaskItem = ({ Task, toggleComplete, deleteTask }: TaskItemProps) => {
   return (
     <div>
       <span>{Task.text}</span>
-      <button onClick={(id) => toggleComplete(Task.id)}>Завершить</button>
-      <button onClick={(id) => deleteTask(Task.id)}>Удалить</button>
+      <button onClick={() => toggleComplete(Date.now())}>Завершить</button>
+      <button onClick={() => deleteTask(Task.id)}>Удалить</button>
     </div>
   );
 };

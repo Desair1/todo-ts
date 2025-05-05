@@ -24,9 +24,16 @@ const TodoList: React.FC = () => {
     }
   };
 
-  const toggleComplete = (id: number) => {};
+  const toggleComplete = (id: number) => {
+    tasks.filter((task) =>
+      task.id !== id ? console.log("ВЫполнен", task) : null
+    );
+  };
 
-  const deleteTask = (id: number) => {};
+  const deleteTask = (id: number) => {
+    const newTasksArray = tasks.filter((task) => task.id !== id);
+    setTasks(newTasksArray);
+  };
 
   return (
     <>
