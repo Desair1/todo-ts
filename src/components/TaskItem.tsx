@@ -1,18 +1,12 @@
-import Task from "../types/task";
+import TaskItemProps from "../types/TaskItemProps";
 
-interface TaskItemProps {
-  Task: Task;
-  toggleComplete: (id: number) => void;
-  deleteTask: (id: number) => void;
-}
-
-const TaskItem = ({ Task, toggleComplete, deleteTask }: TaskItemProps) => {
+const TaskItem = ({ task, toggleComplete, deleteTask }: TaskItemProps) => {
   return (
-    <div>
-      <span>{Task.text}</span>
-      <button onClick={() => toggleComplete(Date.now())}>Завершить</button>
-      <button onClick={() => deleteTask(Task.id)}>Удалить</button>
-    </div>
+    <li>
+      <span>{task.text}</span>
+      <button onClick={() => toggleComplete(task.id)}>Завершить</button>
+      <button onClick={() => deleteTask(task.id)}>Удалить</button>
+    </li>
   );
 };
 

@@ -7,10 +7,22 @@ const TodoList: React.FC = () => {
   const [inputValueText, setInputValueText] = useState("");
 
   // useEffect для загрузки данных из localStorage при монтировании компонента
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const localStorageTasks = localStorage.getItem("tasksList");
+    if (localStorageTasks) {
+      try {
+        const initalValue: Task[] = JSON.parse(localStorageTasks);
+        setTasks(initalValue);
+      } catch (error) {
+        console.log("Ошибка", error);
+      }
+    }
+  }, []);
 
   // useEffect для сохранения данных в localStorage при изменении tasks
-  useEffect(() => {}, [tasks]);
+  useEffect(() => {
+    localStorage.setItem("tasksList", JSON.stringify(tasks));
+  }, [tasks]);
 
   const addTask = (text: string) => {
     if (inputValueText.trim() !== "") {
@@ -25,9 +37,10 @@ const TodoList: React.FC = () => {
   };
 
   const toggleComplete = (id: number) => {
-    tasks.filter((task) =>
-      task.id !== id ? console.log("ВЫполнен", task) : null
-    );
+    const completedTask = tasks.map((task) => {
+      return task.id === id ? { ...task, completed: !task.completed } : task;
+    });
+    setTasks(completedTask);
   };
 
   const deleteTask = (id: number) => {
@@ -49,7 +62,7 @@ const TodoList: React.FC = () => {
         {tasks.map((task) => (
           <TaskItem
             key={task.id}
-            Task={task}
+            task={task}
             toggleComplete={toggleComplete}
             deleteTask={deleteTask}
           ></TaskItem>
