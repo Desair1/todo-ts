@@ -8,30 +8,45 @@ const TodoList: React.FC = () => {
 
   // useEffect для загрузки данных из localStorage при монтировании компонента
   useEffect(() => {
-    const localStorageTasks = localStorage.getItem("tasksList");
-    if (localStorageTasks) {
-      try {
-        const initalValue: Task[] = JSON.parse(localStorageTasks);
-        setTasks(initalValue);
-      } catch (error) {
-        console.log("Ошибка", error);
+    console.log("Попытка загрузки данных из localStorage");
+    try {
+      const savedTasks = localStorage.getItem("tasksList");
+      console.log("Полученные данные:", savedTasks);
+      if (savedTasks) {
+        const parsedTasks = JSON.parse(savedTasks);
+        console.log("Распарсенные данные:", parsedTasks);
+        setTasks(parsedTasks);
+      } else {
+        console.log("Данных нет, создаём пустой массив");
+        setTasks([]);
       }
+    } catch (error) {
+      console.error("Ошибка при загрузке данных:", error);
+      setTasks([]);
     }
   }, []);
 
-  // useEffect для сохранения данных в localStorage при изменении tasks
   useEffect(() => {
-    localStorage.setItem("tasksList", JSON.stringify(tasks));
+    console.log("Попытка сохранения данных в localStorage");
+    if (tasks.length !== 0) {
+      try {
+        localStorage.setItem("tasksList", JSON.stringify(tasks));
+        console.log("Данные успешно сохранены:", tasks);
+      } catch (error) {
+        console.error("Ошибка при сохранении данных:", error);
+      }
+    }
   }, [tasks]);
 
   const addTask = (text: string) => {
     if (inputValueText.trim() !== "") {
       const newTask: Task = {
         id: Date.now(),
-        text: inputValueText,
+        text: text,
         completed: false,
       };
 
+      setInputValueText("");
       setTasks([...tasks, newTask]);
     }
   };
